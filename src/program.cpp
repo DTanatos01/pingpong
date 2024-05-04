@@ -7,11 +7,27 @@
 float width = 400; // Ancho de la pantalla
 float height = 400; // Alto de la pantalla
 int estadoPrograma = 0; // Estado del programa 0 = Menu Principal, 1 = Controles, 2 = Juego PJvPJ, 4 = Terminado
+int puntajePJ1 = 0; // Puntaje del jugador 1
+int puntajePJ2 = 0; // Puntaje del jugador 2
+int ganador = -1; // Quien Gano 0 = Jugador 1, 1 = Jugador 2, -1 = Nadie
+
+/* Variables de las barras y pelota */
+float posicionJugador1 = 0.0;
+float posicionJugador2 = 0.0;
+float posicionPelotaX = 0.0;
+float posicionPelotaY = 0.0;
+bool jugador1Arriba = false;
+bool jugador1Abajo = false;
+bool jugador2Arriba = false;
+bool jugador2Abajo = false;
 
 /* Firmas de metodos */
 void menuPrincipal();
 void menuControles();
 void reiniciarVariables();
+void juegoPingPong();
+void updateJugador1();
+void updateJugador2();
 
 /* Metodo para inicializar la vista y el fondo de la pantalla */
 void myinit(void)
@@ -46,6 +62,7 @@ void display(void)
   } else if (estadoPrograma == 2)
   {
     /* Juego Principal */
+    juegoPingPong();
   }
 	/* Limpiamos los buffers */
   glFlush();
@@ -94,9 +111,56 @@ void keyboard(unsigned char key, int x, int y)
         estadoPrograma = 2;
       }
       break;
+    /* Controles del jugador 1 */
+    /* Arriba */
+    case 'w':
+    case 'W':
+      /* Se revisa que se este en el estado de jugar */
+      if (estadoPrograma == 2)
+      {
+        /* Se activa la condicion del jugador hacia arriba */
+        jugador1Arriba = true;
+      }
+      break;
+    /* Abajo */
+    case 's':
+    case 'S':
+      /* Se revisa que se este en el estado de jugar */
+      if (estadoPrograma == 2)
+      {
+        /* Se activa la condicion del jugador hacia arriba */
+        jugador1Abajo = true;
+      }
+      break;
     default:
       std::cout << "Se presiono la tecla: " << key << std::endl;
   }
+}
+
+/* Metodo para manejar cuando se levanta una tecla del teclado*/
+void keyboardUp(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+    case 'w':
+    case 'W':
+        /* Se revisa que se este en el estado de jugar */
+        if (estadoPrograma == 2)
+        {
+          /* Se desactiva la condicion del jugador hacia arriba */
+          jugador1Arriba = false;
+        }
+        break;
+    case 's':
+    case 'S':
+        /* Se revisa que se este en el estado de jugar */
+        if (estadoPrograma == 2)
+        {
+          /* Se desactiva la condicion del jugador hacia abajo */
+          jugador1Abajo = false;
+        }
+        break;
+    }
 }
 
 /* Metodo que manejara los eventos del teclas especiales */
@@ -104,9 +168,121 @@ void special(int key, int x, int y)
 {
   switch(key)
   {
+    /* Controles del jugador 2 */
+    /* Arriba */
+    case GLUT_KEY_UP:
+      /* Se revisa que se este en el estado de jugar */
+      if (estadoPrograma == 2)
+      {
+        /* Se activa la condicion del jugador hacia arriba */
+        jugador2Arriba = true;
+      }
+      break;
+    case GLUT_KEY_DOWN:
+      /* Se revisa que se este en el estado de jugar */
+      if (estadoPrograma == 2)
+      {
+        /* Se activa la condicion del jugador hacia abajo */
+        jugador2Abajo = true;
+      }
+      break;
     default:
       std::cout << "Se presiono la tecla: " << key << std::endl;
   }
+}
+
+/* Metodo que manejara los eventos del teclas especiales cuando se levantan */
+void specialUp(int key, int x, int y)
+{
+  switch(key)
+  {
+    /* Controles del jugador 2 */
+    /* Arriba */
+    case GLUT_KEY_UP:
+      /* Se revisa que se este en el estado de jugar */
+      if (estadoPrograma == 2)
+      {
+        /* Se desactiva la condicion del jugador hacia arriba */
+        jugador2Arriba = false;
+      }
+      break;
+    case GLUT_KEY_DOWN:
+      /* Se revisa que se este en el estado de jugar */
+      if (estadoPrograma == 2)
+      {
+        /* Se desactiva la condicion del jugador hacia abajo */
+        jugador2Abajo = false;
+      }
+      break;
+    default:
+      std::cout << "Se presiono la tecla: " << key << std::endl;
+  }
+}
+
+/* Funcion para actualizar cualquier movimiento del jugador 1 */
+void updateJugador1(int valor)
+{
+  if (estadoPrograma == 2)
+  {
+    /* Movimiento del Jugador */
+    /* Movimiento hacia arriba */
+    if (jugador1Arriba && !jugador1Abajo)
+    {
+      /* Se mueve de 5 en 5 */
+      if (posicionJugador1 < height/2 -30)
+      {
+        posicionJugador1 += 5;
+      }
+    }
+
+    /* Movimiento hacia abajo */
+    if (jugador1Abajo && !jugador1Arriba)
+    {
+      /* Se mueve de 5 en 5 */
+      if (posicionJugador1 > -height/2 +30)
+      {
+        posicionJugador1 -= 5;
+      }
+    }
+
+    /* Se actualiza la pantalla */
+    glutPostRedisplay();
+  }
+  /* Se llama nuevamente al metodo */
+  glutTimerFunc(10, updateJugador1, 0);
+}
+
+/* Funcion para actualizar cualquier movimiento del jugador 2 */
+void updateJugador2(int valor)
+{
+  if (estadoPrograma == 2)
+  {
+    /* Movimiento del Jugador */
+    /* Movimiento hacia arriba */
+    if (jugador2Arriba && !jugador2Abajo)
+    {
+      /* Se mueve de 5 en 5 */
+      if (posicionJugador2 < height/2 -30)
+      {
+        posicionJugador2 += 5;
+      }
+    }
+
+    /* Movimiento hacia abajo */
+    if (jugador2Abajo && !jugador2Arriba)
+    {
+      /* Se mueve de 5 en 5 */
+      if (posicionJugador2 > -height/2 +30)
+      {
+        posicionJugador2 -= 5;
+      }
+    }
+
+    /* Se actualiza la pantalla */
+    glutPostRedisplay();
+  }
+  /* Se llama nuevamente al metodo */
+  glutTimerFunc(10, updateJugador2, 0);
 }
 
 /* Metodo principal */
@@ -121,18 +297,66 @@ int main(int argc, char** argv)
 	glutDisplayFunc(display); // Se invoca al metodo display cuando la ventana es abierta
   glutReshapeFunc(reshape); // Funcion que se llama cuando la ventana cambia de tamaño
   glutKeyboardFunc(keyboard); // Funcion que manejara los eventos del teclado
+  glutKeyboardUpFunc(keyboardUp); // Funcion que manejara los eventos del teclado cuando se levanta una tecla
   glutSpecialFunc(special); // Funcion que manejara los eventos de teclas especiales
+  glutSpecialUpFunc(specialUp); // Funcion que manejara los eventos de teclas especiales cuando se levanta una tecla
+  glutTimerFunc(10, updateJugador1, 0); // Funcion encargada de cada movimiento del jugador 1 en pantalla
+  glutTimerFunc(10, updateJugador2, 0); // Funcion encargada de cada movimiento del jugador 2 en pantalla
 	myinit(); // Se ponen los argumentos
 	glutMainLoop(); // Se ingresar a ciclo de eventos
 }
 
 /* Metodos auxiliares */
 
+/* Metodo principal que reprensenta la logica del juego */
+void juegoPingPong()
+{
+  /* Se dibuja la pelota */
+  glColor3f(1.0, 1.0, 1.0); // Color blanco
+  glPointSize(10);
+  glBegin(GL_POINTS);
+  glVertex2f(posicionPelotaX, posicionPelotaY);
+  glEnd();
+
+  /* Se dibuja las barras */
+  /* Jugador 1 */
+  glColor3f(1.0, 0.0, 0.0); // Color Rojo
+  glBegin(GL_POLYGON);
+  glVertex2f(-width/2 + 10, posicionJugador1 + 20);
+  glVertex2f(-width/2 + 20, posicionJugador1 + 20);
+  glVertex2f(-width/2 + 20, posicionJugador1 - 20);
+  glVertex2f(-width/2 + 10, posicionJugador1 - 20);
+  glEnd();
+
+  /* Jugador 2 */
+  glColor3f(0.0, 0.0, 1.0); // Color Azul
+  glBegin(GL_POLYGON);
+  glVertex2f(width/2 - 10, posicionJugador2 + 20);
+  glVertex2f(width/2 - 20, posicionJugador2 + 20);
+  glVertex2f(width/2 - 20, posicionJugador2 - 20);
+  glVertex2f(width/2 - 10, posicionJugador2 - 20);
+  glEnd();
+
+  /* Se dibuja el puntaje*/
+  glColor3f(0.0, 1.0, 0.0); // Color Verde
+  /* Posicion del del puntaje */
+	glRasterPos2f(0, -height/2 + 20);
+  glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, ':');
+  /* Posicion del del puntaje Jugador 1 */
+	glRasterPos2f(-20, -height/2 + 20);
+  glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '0' + puntajePJ1);
+  /* Posicion del del puntaje Jugador 2 */
+	glRasterPos2f(15, -height/2 + 20);
+  glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '0' + puntajePJ2);
+  glColor3f(1.0, 1.0, 1.0); // Color Blanco
+}
+
 /* Metodo para mostrar las letras de los ejes */
 void menuPrincipal()
 {
   /* Cuadro del titulo */
-  glColor3f(1.0, 1.0, 1.0);
+  glColor3f(1.0, 1.0, 1.0); // Color blanco
+  /* Se dibuja cuadrado */
   glBegin(GL_QUADS);
   glVertex2f(65, 150);
   glVertex2f(-60, 150);
@@ -141,7 +365,7 @@ void menuPrincipal()
   glEnd();
 
 	/* Color de las letras del titulo */
-	glColor3f(0.0, 0.0, 0.0);
+	glColor3f(0.0, 0.0, 0.0); // Color negro
   /* Se muestra el titulo */
   /* Posicion del titulo */
 	glRasterPos2f(-50.0, 120.0);
@@ -157,7 +381,7 @@ void menuPrincipal()
 	glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, 'g');
 
 	/* Color de las letras del titulo */
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0); // Color blanco
 
   /* Se muestra el menu */
   /* Se genera un cuadrado para contener una letra */
@@ -231,7 +455,8 @@ void menuPrincipal()
 void menuControles()
 {
   /* Cuadro del titulo */
-  glColor3f(1.0, 1.0, 1.0);
+  glColor3f(1.0, 1.0, 1.0); // Color blanco
+  /* Se dibuja el cuadrado */
   glBegin(GL_QUADS);
   glVertex2f(55, 150);
   glVertex2f(-60, 150);
@@ -240,7 +465,8 @@ void menuControles()
   glEnd();
 
   /* Jugador 1 */
-  glColor3f(1.0, 1.0, 1.0);
+  glColor3f(1.0, 1.0, 1.0); // Color blanco
+  /* Se dibuja el cuadrado */
   glBegin(GL_QUADS);
   glVertex2f(-100, 100);
   glVertex2f(-150, 100);
@@ -249,7 +475,8 @@ void menuControles()
   glEnd();
 
   /* Jugador 2 */
-  glColor3f(1.0, 1.0, 1.0);
+  glColor3f(1.0, 1.0, 1.0); // Color blanco
+  /* Se dibuja el cuadrado */
   glBegin(GL_QUADS);
   glVertex2f(100, 100);
   glVertex2f(150, 100);
@@ -258,7 +485,7 @@ void menuControles()
   glEnd();
 
 	/* Color de las letras del titulo */
-	glColor3f(0.0, 0.0, 0.0);
+	glColor3f(0.0, 0.0, 0.0); // Color negro
   /* Se muestra el titulo */
   /* Posicion del titulo */
 	glRasterPos2f(-50.0, 120.0);
@@ -288,7 +515,7 @@ void menuControles()
 	glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, '2');
 
 	/* Color de las letras del titulo */
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0); // Color blanco
 
   /* Se muestra el menu */
   /* Se genera un cuadrado para contener una letra */
@@ -321,11 +548,13 @@ void menuControles()
   glEnd();
   
   /* Se dibuja la flecha */
+  /* Se dibuja triangulo */
   glBegin(GL_TRIANGLES);
   glVertex2f(160, 20);
   glVertex2f(170, 5);
   glVertex2f(150, 5);
   glEnd();
+  /* Se dibuja la linea */
   glBegin(GL_LINES);
   glVertex2f(160, 5);
   glVertex2f(160, -10);
@@ -369,11 +598,13 @@ void menuControles()
   glEnd();
 
   /* Se dibuja la flecha */
+  /* Se dibuja el triangulo */
   glBegin(GL_TRIANGLES);
   glVertex2f(160, -80);
   glVertex2f(170, -65);
   glVertex2f(150, -65);
   glEnd();
+  /* Se dibuja linea */
   glBegin(GL_LINES);
   glVertex2f(160, -65);
   glVertex2f(160, -50);
@@ -430,5 +661,10 @@ void menuControles()
 /* Metodo que representa la limpieza de las variables del juego */
 void reiniciarVariables()
 {
-
+  puntajePJ1 = 0;
+  puntajePJ2 = 0;
+  posicionJugador1 = 0.0;
+  posicionJugador2 = 0.0;
+  posicionPelotaX = 0.0;
+  posicionPelotaY = 0.0;
 }

@@ -9,18 +9,29 @@ Para obtener más detalles sobre como instalar o configurar OpenGL en Windows [G
 ## Características
 
 - **Género:** Deportes
-- **Modo:** Dos jugador.
+- **Modo:** Dos jugadores.
 - **Periféricos:** Teclado, Pantalla.
 - **Plataforma:** Windows PC.
-- **Versión:** V1.
+- **Versión:** V-1.5
+- **Controles:**
+    - **Jugador 1:**
+		- W: Arriba.
+		- S: Abajo,
+	- **Jugador 2:**
+		- Flecha Arriba: Arriba,
+		- Flecha Abajo: Abajo.
+	- ESC: Salir o Ir al Menú Principal
+
 
 ## Funcionalidades
 
 - **Pantalla de Inicio:** ![PantallaInicial](https://progress-bar.dev/100/?title=Completado)
 
-- **Pantalla de Juego:** ![PantallaJuego](https://progress-bar.dev/50/?title=Completado)
+- **Pantalla de Juego:** ![PantallaJuego](https://progress-bar.dev/100/?title=Completado)
 
-- **Movilidad Barras:** ![MovilidadBarra](https://progress-bar.dev/0/?title=Completado)
+- **Pantall Final:** ![PantallaFinal](https://progress-bar.dev/0/?title=Completado)
+
+- **Movilidad Barras:** ![MovilidadBarra](https://progress-bar.dev/100/?title=Completado)
 
 - **Movilidad Pelota:** ![MovilidadPelota](https://progress-bar.dev/0/?title=Completado)
 
