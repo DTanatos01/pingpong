@@ -53,12 +53,16 @@ Para el uso del programa seguir los siguientes pasos:
 
 2. Ingresar a la carpeta build.
 
-3. Ejecutar el siguiente comando:
+3. Ejecutar el siguiente comando (Los ... representan la ruta donde se encuentre el proyecto):
 
 ```
-g++ ../src/program.cpp -o programa -I"C:\Users\Bryan Gonzalez\Documents\pingpong\includes\freeglut" -I"C:\Users\Bryan Gonzalez\Documents\pingpong\includes\glm" -I"C:\Users\Bryan Gonzalez\Documents\pingpong\includes\glew" -L"C:\Users\Bryan Gonzalez\Documents\pingpong\libs\freeglut" -L"C:\Users\Bryan Gonzalez\Documents\pingpong\libs\glew" -lopengl32 -lfreeglut -lglu32
+g++ ../src/program.cpp -o programa -I"C:\...\pingpong\includes\freeglut" -I"C:\...\pingpong\includes\glm" -I"C:\...\pingpong\includes\glew" -L"C:\...\pingpong\libs\freeglut" -L"C:\...\pingpong\libs\glew" -lopengl32 -lfreeglut -lglu32
 ```
 
 4. Se generara en la carpeta de build programa.exe
 
 5. Ejecuta el programa.exe y a disfrutar el juego.
+
+## Ejecución Ejemplo
+
+![EjecuciónEjemplo](JuegoEjemplo.gif)
