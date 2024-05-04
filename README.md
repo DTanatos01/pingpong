@@ -29,11 +29,13 @@ Para obtener más detalles sobre como instalar o configurar OpenGL en Windows [G
 
 - **Pantalla de Juego:** ![PantallaJuego](https://progress-bar.dev/100/?title=Completado)
 
-- **Pantall Final:** ![PantallaFinal](https://progress-bar.dev/0/?title=Completado)
+- **Pantall Final:** ![PantallaFinal](https://progress-bar.dev/100/?title=Completado)
 
 - **Movilidad Barras:** ![MovilidadBarra](https://progress-bar.dev/100/?title=Completado)
 
-- **Movilidad Pelota:** ![MovilidadPelota](https://progress-bar.dev/0/?title=Completado)
+- **Movilidad Pelota:** ![MovilidadPelota](https://progress-bar.dev/100/?title=Completado)
+
+- **Jugabilidad:** ![Jugabilidad](https://progress-bar.dev/100/?title=Completado)
 
 ## Requisitos
 
